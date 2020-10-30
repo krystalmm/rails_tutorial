@@ -4,7 +4,7 @@ require 'rails_helper'
     it "returns http success" do
       visit '/static_pages/home'
       expect(page).to have_css('h1', text: 'Sample App')
-      expect(page).to have_title "Home | Ruby on Rails Tutorial Sample App"
+      expect(page).to have_title("Ruby on Rails Tutorial Sample App", exact: true)
     end
   end
 
