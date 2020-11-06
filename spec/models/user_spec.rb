@@ -44,4 +44,19 @@ RSpec.describe User, type: :model do
     end
   end
 
+  it "email addresses should be unique" do
+    duplicate_user = user_a.dup
+    duplicate_user.email = user_a.email.upcase
+    expect(duplicate_user).to_not be_valid
+  end
+
+  it "password should be present (nonblank) " do
+    user_a.password = user_a.password_confirmation = " " * 6
+    expect(user_a).to_not be_valid
+  end
+
+  it "password should have a minimum length" do
+    user_a.password = user_a.password_confirmation = "a" * 5
+    expect(user_a).to_not be_valid
+  end
 end
