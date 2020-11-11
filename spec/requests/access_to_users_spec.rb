@@ -17,6 +17,10 @@ describe "about signup", type: :request do
         subject { response }
         it { is_expected.to redirect_to user_path(User.last) } # showページにリダイレクトさせる
         it { is_expected.to have_http_status 302 }
+        # ユーザー作成時にログインしているかのテスト
+        it 'log in' do
+          expect(is_logged_in?).to be_truthy
+        end
       end
     end
 
