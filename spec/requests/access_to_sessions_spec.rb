@@ -12,9 +12,16 @@ describe 'access to sessions', type: :request do
 
   describe 'DELETE#destroy' do
     it 'log out and redirect to root page' do
+      post login_path, params: { session: { email: user.email, password: user.password } }
       delete logout_path
       expect(response).to redirect_to root_url
       expect(is_logged_in?).to be_falsey # ログアウトしているかのテスト
+    end
+
+    it 'succeeds logout when user logs out on multiple tabs' do
+      delete logout_path
+      expect(response).to redirect_to root_url
+      expect(is_logged_in?).to be_falsey
     end
   end
 end
