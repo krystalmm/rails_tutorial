@@ -15,3 +15,18 @@ module TestHelper
   end
 end
 
+module SystemHelper
+  def login_as(user)
+    visit login_path
+    fill_in 'login-email', with: user.email
+    fill_in 'login-password', with: user.password
+    click_button 'Log in'
+  end
+end
+
+RSpec.configure do |config|
+  config.include TestHelper
+  config.include SystemHelper
+end
+
+
