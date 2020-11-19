@@ -37,4 +37,13 @@ RSpec.describe 'access to sessions', type: :request do
       expect(cookies[:remember_token]).to eq nil
     end
   end
+
+  describe 'friendly forwarding' do
+    let(:user) { FactoryBot.create(:user) }
+    it 'succeeds' do
+      get edit_user_path(user)
+      log_in_as(user)
+      expect(response).to redirect_to edit_user_url(user)
+    end
+  end
 end
