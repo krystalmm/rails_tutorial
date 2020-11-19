@@ -8,8 +8,8 @@ describe 'Users login', type: :system do
   describe 'enter an valid values' do
     let!(:user) { FactoryBot.create(:user) }
     before do
-      fill_in 'login-email', with: "test1@example.com"
-      fill_in 'login-password', with: "password"
+      fill_in 'login-email', with: user.email
+      fill_in 'login-password', with: user.password
       click_button 'Log in'
     end
 
