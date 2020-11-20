@@ -15,11 +15,13 @@ describe "about signup", type: :request do
       context 'adds a user' do
         before { post signup_path, params: { user: FactoryBot.attributes_for(:user) } }
         subject { response }
-        it { is_expected.to redirect_to user_path(User.last) } # showページにリダイレクトさせる
+        it { is_expected.to redirect_to root_url } 
         it { is_expected.to have_http_status 302 }
-        # ユーザー作成時にログインしているかのテスト
+        
         it 'log in' do
-          expect(is_logged_in?).to be_truthy
+          # 配信されたメッセージがきっかり１つであるかどうかを確認！
+          expect(ActionMailer::Base.deliveries.size).to eq (1) 
+          expect(is_logged_in?).to be_falsey
         end
       end
     end

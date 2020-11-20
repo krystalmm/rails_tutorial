@@ -35,7 +35,7 @@ describe 'users signup', type: :system do
       end
 
       it 'gets an flash message' do
-        expect(page).to have_selector('.alert-success', text: "Welcome to the Sample App!")
+        expect(page).to have_selector('.alert-info', text: "Please check your email to activate your account.")
       end
     end
 
