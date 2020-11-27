@@ -19,5 +19,10 @@ FactoryBot.define do
       content { "now!" }
       created_at { Time.zone.now }
     end
+
+    factory :many_content do
+      content { Faker::Lorem.sentence(5) }
+      created_at { 42.days.ago }
+    end
   end
 end

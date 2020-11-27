@@ -28,6 +28,15 @@ FactoryBot.define do
       activated_at { Time.zone.now }
     end
 
+    factory :micropost_user do
+      name { "micro" }
+      sequence(:email) { |n| "micropost-#{n}@example.com" }
+      password { "password" }
+      password_digest { User.digest('password') }
+      activated { true }
+      activated_at { Time.zone.now }
+    end
+
   end
 end
 
