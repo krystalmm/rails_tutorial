@@ -12,7 +12,7 @@ RSpec.describe type: :system do
   end
 
   describe "index" do
-    let!(:user) { FactoryBot.create(:user) }
+    let(:user) { FactoryBot.create(:user) }
 
     before do
       visit login_path
@@ -40,33 +40,5 @@ RSpec.describe type: :system do
       end
     end
   end
-
-  describe "GET#show" do
-    let!(:user) { FactoryBot.create(:user) }
-    
-    before do
-      visit login_path
-      login_as(user)
-      visit user_path(user)
-    end
-
-    describe "users profile" do
-      before(:all) { 30.times { FactoryBot.create(:many_content) } }
-      after(:all) { Micropost.delete_all }
-
-      it 'profile display' do
-        expect(page).to have_current_path "/users/#{user.id}"
-        expect(page).to have_title "#{user.name}"
-        expect(page).to have_css('h1', text: "#{user.name}")
-        expect(page.body).to match user.microposts.count.to_s
-      end
-
-      it 'should list each micropost' do
-        user.microposts.paginate(page: 1).each do |micropost|
-          expect(page).to have_selector('li', text: user.micropost.content)
-        end
-      end
-    end
-  end 
 end
 

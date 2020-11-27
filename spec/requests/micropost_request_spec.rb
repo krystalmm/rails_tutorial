@@ -29,6 +29,20 @@ RSpec.describe "Microposts", type: :request do
         expect(delete_request).to redirect_to login_url
       end
     end
+
+    context "when logged in user tyies to delete another user's micropost" do
+      let(:user) { FactoryBot.create(:user) }
+
+      before { log_in_as(user) }
+
+      it "does not change Micropost's count" do
+        expect { delete_request }.to change(Micropost, :count).by(0)
+      end
+
+      it "redirect to root_url" do
+        expect(delete_request).to redirect_to root_url
+      end
+    end
   end
 end
 
