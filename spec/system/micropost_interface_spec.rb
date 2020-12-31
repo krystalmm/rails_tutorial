@@ -27,10 +27,15 @@ RSpec.describe "MicropostsInterfaces", type: :system do
     # 有効な送信
     valid_content = "This micropost really ties the room together"
     fill_in "new-micropost-content", with: valid_content
+
+    # 画像追加
+    attach_file 'micropost_picture', "#{Rails.root}/spec/fixtures/user_mailer/samplepic.jpg"
+
     expect do
       click_on "Post"
       expect(current_path).to eq root_path
       expect(has_css?('.alert-success')).to be_truthy
+      expect(page).to have_selector "img[src$='samplepic.jpg']"
     end.to change(Micropost, :count).by(1)
 
     # 投稿を削除する
