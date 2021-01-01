@@ -18,7 +18,18 @@ RSpec.describe "Users", type: :request do
       delete user_path(user)
       expect(response).to redirect_to login_url
     end
+
+    it "redirects following when not logged in" do
+      get following_user_path(user)
+      expect(response).to redirect_to login_url
+    end
+
+    it "redirects followers when not logged in" do
+      get followers_user_path(user)
+      expect(response).to redirect_to login_url
+    end
   end
+  
 
   describe "before_action: :correct_user" do
     let(:user) { FactoryBot.create(:user) }

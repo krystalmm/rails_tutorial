@@ -76,5 +76,31 @@ RSpec.describe User, type: :model do
       end.to change(Micropost, :count).by(-1)
     end
   end
+
+  describe "follow and unfollow" do
+    let(:user) { FactoryBot.create(:user) }
+    let(:other_user) { FactoryBot.create(:user) }
+
+    before { user.follow(other_user) }
+
+    describe "follow" do
+      it "succeeds" do
+        expect(user.following?(other_user)).to be_truthy
+      end
+    end
+
+    describe "followers" do
+      it "succeeds" do
+        expect(other_user.followers.include?(user)).to be_truthy
+      end
+    end
+
+    describe "unfollow" do
+      it "succeeds" do
+        user.unfollow(other_user)
+        expect(user.following?(other_user)).to be_falsey
+      end
+    end
+  end
 end
 
