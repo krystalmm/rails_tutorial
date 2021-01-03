@@ -76,5 +76,60 @@ RSpec.describe User, type: :model do
       end.to change(Micropost, :count).by(-1)
     end
   end
+
+  describe "follow and unfollow" do
+    let(:user) { FactoryBot.create(:user) }
+    let(:other_user) { FactoryBot.create(:user) }
+
+    before { user.follow(other_user) }
+
+    describe "follow" do
+      it "succeeds" do
+        expect(user.following?(other_user)).to be_truthy
+      end
+    end
+
+    describe "followers" do
+      it "succeeds" do
+        expect(other_user.followers.include?(user)).to be_truthy
+      end
+    end
+
+    describe "unfollow" do
+      it "succeeds" do
+        user.unfollow(other_user)
+        expect(user.following?(other_user)).to be_falsey
+      end
+    end
+  end
+
+  describe "def feed" do
+    let(:user) { FactoryBot.create(:user, :with_microposts) }
+    let(:other_user) { FactoryBot.create(:user, :with_microposts) }
+
+    context "when user is following other_user" do
+      before { user.active_relationships.create!(followed_id: other_user.id) }
+
+      it "contains other user's microposts within the user's Micropost" do
+        other_user.microposts.each do |post_following|
+          expect(user.feed.include?(post_following)).to be_truthy 
+        end
+      end
+
+      it "contains the user's own microposts in the user's Micropost" do
+        user.microposts.each do |post_self|
+          expect(user.feed.include?(post_self)).to be_truthy
+        end
+      end
+    end
+
+    context "when user is not following other_user" do
+      it "doesn't contain other user's microposts within the user's Micropost" do
+        other_user.microposts.each do |post_unfollowed|
+          expect(user.feed.include?(post_unfollowed)).to be_falsey
+        end
+      end
+    end
+  end
 end
 

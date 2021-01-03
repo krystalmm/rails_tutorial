@@ -6,7 +6,7 @@ describe 'Users login', type: :system do
   end
 
   describe 'enter an valid values' do
-    let!(:user) { FactoryBot.create(:user) }
+    let(:user) { FactoryBot.create(:user) }
     before do
       fill_in 'login-email', with: user.email
       fill_in 'login-password', with: user.password
